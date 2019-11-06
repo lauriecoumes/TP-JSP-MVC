@@ -51,5 +51,18 @@ public class DAO {
         return codes;
     }
     
-
+    public void ajouterCode(String code, float taux) {
+        String sql = "INSERT INTO APP.DISCOUNT_CODE VALUES (?, ?)";
+        
+        try (Connection connection = myDataSource.getConnection(); // Ouvrir une connexion
+                PreparedStatement stmt = connection.prepareStatement(sql) // Un ResultSet pour parcourir les enregistrements du résultat
+                ) {
+            stmt.setString(1, code);
+            stmt.setFloat(2, taux);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+        }
+            
+    }
 }
