@@ -29,14 +29,28 @@ public class ApplicationController extends HttpServlet {
             throws ServletException, IOException {
         try {
             DAO dao = new DAO(DataSourceFactory.getDataSource());
+
+            String code = request.getParameter("code");
+            String taux = request.getParameter("taux");
+            
+            String action = request.getParameter("action");
+            if ("ADD".equals(action)) {
+                dao.ajouter(code, Float.parseFloat(taux));
+            }
+            
+            if ("DELETE".equals(action)) {
+                dao.delete(code);
+            }
+            
             List<DiscountEntity> codes = dao.discount_code();
             
             request.setAttribute("selectedCode", codes);
-            
+
             // On redirige vers la vue
             request.getRequestDispatcher("views/ApplicationView.jsp").forward(request, response);
 
         } catch (Exception e) {
+            Logger.getLogger("servlet").log(Level.SEVERE, "Erreur de traitement", e);
             // On renseigne un attribut utilisé par la vue
             request.setAttribute("error", e.getMessage());
             // On redirige vers la page d'erreur

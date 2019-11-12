@@ -14,21 +14,30 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Edition des taux de remise</h1>
-        <div>
-            <label for="code">Code :</label> <input type="text" id="code" name="code">
-        </div>
-        <div>
-            <label for="taux">Taux :</label> <input type="number" id="taux" name="howmuch" placeholder="0" step="0.01" min="0" max="100">
-        </div>
-        <input type="button" value="Ajouter">
-        <br>
+        <form method='GET'>
+            <h1>Edition des taux de remise</h1>
+            <div>
+                <label for="code">Code :</label> <input type="text" name="code">
+            </div>
+            <div>
+                <label for="taux">Taux :</label> <input type="number" name="taux" placeholder="0" step="0.01" min="0" max="100">
+            </div>
+            <input type="hidden" name="action" value="ADD">
+            <input type="submit" value="Ajouter">
+        </form>
 
-        <table border=2>
+
+        <table border=2 method="get">
             <tr> <th>Code</th> <th>Taux</th> <th>Action</th> </tr>
-            
+
             <c:forEach var="discount" items="${selectedCode}">
-                <tr> <td>${discount.code}</td> <td>${discount.taux}</td> <td><input type="button" value="DELETE"></td> </tr>
+                <form>
+                    <tr> 
+                        <td><input type="text" name="code" value="${discount.code}" readonly></td>
+                        <td><input type="text" name="taux" value="${discount.taux}"></td> 
+                        <td><input type="submit" name=action value="DELETE"></td> 
+                    </tr>
+                </form>
             </c:forEach>
         </table>
 

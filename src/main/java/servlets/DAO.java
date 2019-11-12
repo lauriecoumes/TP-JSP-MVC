@@ -47,22 +47,53 @@ public class DAO {
         } catch (SQLException ex) {
             Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
         }
-        
+
         return codes;
     }
+
+    public void ajouter(String code, float taux) {
+        String sql = "INSERT INTO APP.DISCOUNT_CODE VALUES (?, ?)";
+
+        try (Connection connection = myDataSource.getConnection(); // Ouvrir une connexion
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+                stmt.setString(1, code);
+                stmt.setFloat(2, taux);
+                
+                stmt.executeUpdate();
+                
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+        }
+    }
     
+    public void delete(String code) {
+        String sql = "DELETE FROM APP.DISCOUNT_CODE WHERE DISCOUNT_CODE=?";
+
+        try (Connection connection = myDataSource.getConnection(); // Ouvrir une connexion
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+                stmt.setString(1, code);
+                
+                stmt.executeUpdate();
+                
+        } catch (SQLException ex) {
+            Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void ajouterCode(String code, float taux) {
         String sql = "INSERT INTO APP.DISCOUNT_CODE VALUES (?, ?)";
-        
+
         try (Connection connection = myDataSource.getConnection(); // Ouvrir une connexion
                 PreparedStatement stmt = connection.prepareStatement(sql) // Un ResultSet pour parcourir les enregistrements du résultat
                 ) {
             stmt.setString(1, code);
             stmt.setFloat(2, taux);
-            
+
         } catch (SQLException ex) {
             Logger.getLogger("DAO").log(Level.SEVERE, null, ex);
         }
-            
+
     }
 }
